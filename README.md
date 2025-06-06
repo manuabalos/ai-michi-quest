@@ -19,9 +19,9 @@ Eres un michi callejero con un gran objetivo: conquistar el mundo. Porque los mi
 
 - `POST /start`: Comienza una nueva aventura.
 - `POST /decision/{story_id}`: Envía una decisión y continúa la historia.
-- `GET /story/{story_id}`: Consulta el progreso de la historia.
 - `GET /choices/{story_id}`: Obtén las opciones disponibles.
 - `GET /stats/{story_id}`: Consulta el estado del michi (energía, reputación, aliados).
+- `GET /story/{story_id}`: Consulta el progreso de la historia.
 - `POST /reset/{story_id}`: Reinicia la historia.
 
 ---
@@ -29,15 +29,16 @@ Eres un michi callejero con un gran objetivo: conquistar el mundo. Porque los mi
 ### 🛠️ Posible Stack
 
 - **Backend**: FastAPI.
-- **Base de datos**: MongoDB con `pymongo`.
+- **Base de datos**: MongoDB.
 - **Narrativa**: Hugging Face Transformers.
-- **Frontend (opcional)**: Gradio o React para probar la historia.
+- **Frontend (opcional)**: Gradio para probar la historia.
 
 ---
 
 ### 🧠 Modelos de Hugging Face Involucrados
 
 - **Generación de narrativa humorística**:
+  - `llama-2-7b-chat.Q4_K_M`
   - `tiiuae/falcon-7b-instruct`
   - `mistralai/Mistral-7B-Instruct-v0.2`
   - `gpt2`

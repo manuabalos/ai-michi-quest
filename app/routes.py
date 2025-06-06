@@ -8,8 +8,9 @@ router = APIRouter()
 @router.post("/start")
 async def start_michi_adventure(player_name: str):
     intro_text = (
-        "Te despiertas dentro de una caja de cartón húmeda, junto a una tienda de sushi cerrada. "
-        "Frente a ti, una paloma con parche te observa. El destino del mundo podría depender de lo que hagas ahora."
+        "Te despiertas dentro de una caja de cartón húmeda, junto a una tienda de sushi cerrada.\n"
+        "Tienes hambre. Tienes sueño. Tienes pelusa en el bigote. Pero algo en tu alma felina te dice: 'Has nacido para algo más grande.'\n"
+        "Frente a ti, una paloma con parche en el ojo te mira fijamente. Podría ser una aliada... o una amenaza."
     )
 
     choices = [
