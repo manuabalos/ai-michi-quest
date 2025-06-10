@@ -31,9 +31,9 @@ def create_interface():
     btn_start = gr.Button("Iniciar aventura")
     
     story_id = gr.State()
-    intro = gr.Textbox(label="Historia", interactive=False)
+    intro = gr.Textbox(label="Historia", interactive=False, lines=5)
     options = gr.Radio(choices=[], label="Qué hara el michi?", visible=False)
-    custom_action = gr.Textbox(label="O escribe tu propia acción!", placeholder="Escribe aquí si quieres hacer otra cosa...", lines=1)
+    custom_action = gr.Textbox(label="O escribe tu propia acción!", placeholder="Escribe aquí si quieres hacer otra cosa...", lines=2)
 
     btn_continue = gr.Button("Enviar decisión", visible=True)
 

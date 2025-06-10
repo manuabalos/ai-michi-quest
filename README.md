@@ -66,3 +66,5 @@ Eres un michi callejero con un gran objetivo: conquistar el mundo. Porque los mi
 3. Comer un trozo de sushi sospechoso tirado en el suelo.
 
 ---
+
+![Ejemplo de monstruo generado](img/readme-demo.png)
