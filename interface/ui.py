@@ -16,9 +16,11 @@ def gradio_start(player_name):
   story_id, intro, choices = start_story(player_name)
   return story_id, intro, gr.update(choices=choices, value=None), gr.update(visible=True)
 
-def gradio_continue(story_id, decision):
-  text, choices = continue_story(story_id, decision)
-  return text, gr.update(choices=choices, value=None)
+def gradio_continue(story_id, option, custom_action):
+    action = custom_action or ""
+    decision = custom_action.strip() if action.strip() else option
+    text, choices = continue_story(story_id, decision)
+    return text, gr.update(choices=choices, value=None), ""
 
 def create_interface():
   with gr.Blocks() as demo:
@@ -31,6 +33,7 @@ def create_interface():
     story_id = gr.State()
     intro = gr.Textbox(label="Historia", interactive=False)
     options = gr.Radio(choices=[], label="Qué hara el michi?", visible=False)
+    custom_action = gr.Textbox(label="O escribe tu propia acción!", placeholder="Escribe aquí si quieres hacer otra cosa...", lines=1)
 
     btn_continue = gr.Button("Enviar decisión", visible=True)
 
@@ -42,8 +45,8 @@ def create_interface():
 
     btn_continue.click(
       gradio_continue,
-      inputs=[story_id, options],
-      outputs=[intro, options]
+      inputs=[story_id, options, custom_action],
+      outputs=[intro, options, custom_action]
     )
 
   return demo
