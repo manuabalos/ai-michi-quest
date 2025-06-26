@@ -1,13 +1,18 @@
-from llama_cpp import Llama
-
+import google.generativeai as genai
+from dotenv import load_dotenv
+import os
+load_dotenv()
 from app.models import StoryNode
 
 import re
 import json
 
-# https://huggingface.co/SanctumAI/Meta-Llama-3.1-8B-Instruct-GGUF
-MODEL_PATH = "./app/model/meta-llama-3.1-8b-instruct.Q4_K_M.gguf"
-model = Llama(model_path=MODEL_PATH)
+gemini_api_key = os.getenv("GEMINI_API_KEY")
+if not gemini_api_key:
+    raise ValueError("GEMINI_API_KEY environment variable is not set.")
+
+genai.configure(api_key=os.getenv(gemini_api_key)) 
+model = genai.GenerativeModel("gemini-2.5-flash-lite-preview-06-17")
 
 def build_prompt(story_nodes, last_decision):
     # Convertir los diccionarios en instancias de StoryNode
@@ -15,10 +20,13 @@ def build_prompt(story_nodes, last_decision):
 
     # Se recoge los últimos 1 o 2 nodos para que se tenga un contexto de la historia.
     # history = "\n".join([f"Paso {node.step}: {node.text}\nDecisión: {node.decision or '---'}" for node in story_nodes[-2:]])
-    history = "\n".join([f"Paso {node.step}: {node.text}\nDecisión: {node.decision or '---'}" for node in story_nodes[-1:]])
+    history = "\n".join([f"Paso {node.step}: {node.text}\nDecisión: {node.decision or '---'}" for node in story_nodes[-3:]])
     prompt = f"""
-Eres un narrador que cuenta una historia interactiva humorística protagonizada por un gato (michi) callejero cuyo objetivo es conquistar el mundo.
+Tu rol: Eres un narrador que cuenta una historia interactiva humorística protagonizada por un gato (michi) callejero cuyo objetivo es conquistar el mundo.
 
+Mi rol (usuario): Soy un michi callejero con un gran objetivo: conquistar el mundo. Porque los michis siempre han estado destinados a dominar el mundo. Pero primero debes sobrevivir al vecindario, reunir aliados (otros gatos, palomas, perros despistados), encontrar comida, hackear el router de los humanos, y más. Cada decisión afecta tu historia y destino.
+
+Estilo: Humor absurdo: referencias a internet, memes de gatos, drama exagerado.
 ---
 
 Historia hasta ahora:
@@ -40,15 +48,14 @@ Devuelve la respuesta EXCLUSIVAMENTE en formato JSON sin markdown con la siguien
   ]
 }}
 
-No agregues explicaciones ni texto fuera del JSON.
-
 """
     return prompt
 
 def story_generator(prompt: str):
-    result = model(prompt, max_tokens=512, temperature=0.9, top_k=40, top_p=0.9)
-    generated_text = result["choices"][0]["text"]
-    return [{"generated_text": generated_text}]
+    # Genera contenido usando el modelo de Gemini.
+    # El modelo debe estar configurado previamente con la clave de API.
+    response = model.generate_content(prompt)
+    return [{"generated_text": response.text}]
 
 def generate_next_node(prompt: str, step: int):
     output = story_generator(prompt)[0]["generated_text"]

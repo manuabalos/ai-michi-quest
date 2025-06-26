@@ -30,20 +30,35 @@ Eres un michi callejero con un gran objetivo: conquistar el mundo. Porque los mi
 
 - **Backend**: FastAPI.
 - **Base de datos**: MongoDB.
-- **Narrativa**: Hugging Face Transformers.
 - **Frontend (opcional)**: Gradio para probar la historia.
 
 ---
 
-### 🧠 Modelos de Hugging Face Involucrados
+### 🚀 Instalación rápida
 
-- **Generación de narrativa humorística**:
-  - `llama-2-7b-chat.Q4_K_M`
-  - `tiiuae/falcon-7b-instruct`
-  - `mistralai/Mistral-7B-Instruct-v0.2`
-  - `gpt2`
-  - `flan-t5` con prompts creativos.
-- **Clasificador de tono o emoción (opcional)**: Para interpretar respuestas del jugador si se decide hacerlo más avanzado.
+1. Clona el repositorio.
+2. Instala las dependencias:
+```
+pip install -r requirements.txt
+```
+. Configura tu archivo `.env` como se indica arriba.
+3. Configura tu archivo `.env` como se indica arriba.
+4. (Opcional) Ejecuta la interfaz Gradio:
+```
+python main.py
+```
+5. Ejecuta el backend:
+```
+uvicorn app.main:app --reload
+```
+
+### ⚠️ Configuración de la API de Gemini
+
+Para que la aplicación funcione correctamente, **es imprescindible añadir tu clave de API de Gemini**.  
+Crea un archivo `.env` en la raíz del proyecto con el siguiente contenido:
+GEMINI_API_KEY=tu_clave_api_de_gemini_aquí
+
+Puedes obtener tu clave gratuita en [Google AI Studio](https://aistudio.google.com/app/apikey).
 
 ---
 
@@ -68,3 +83,4 @@ Eres un michi callejero con un gran objetivo: conquistar el mundo. Porque los mi
 ---
 
 ![Ejemplo de monstruo generado](img/readme-demo.png)
+
